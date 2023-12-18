@@ -3,7 +3,7 @@ package com.example.shoppingmall.controller;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
 import com.example.shoppingmall.service.ProductService;
-import com.example.shoppingmall.service.impl.ProductServiceImpl;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,5 +47,11 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.OK).body(updateInfo);
     }
+   @DeleteMapping("/products/{productId}")
+   public ResponseEntity<Object> delete(@PathVariable Integer productId ){
+        productService.delete(productId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+   }
 
 }

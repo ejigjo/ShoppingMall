@@ -40,8 +40,8 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Integer insert(ProductInsert productInsert) {
-        String sql = "INSERT INTO product (product_name, category, image_url, price, stock, description, last_modified_date) " +
-                "VALUES (:productName, :category, :imageUrl, :price, :stock, :description, :lastModifiedDate)";
+        String sql = "INSERT INTO product (product_name, category, image_url, price, stock, description,created_date ,last_modified_date) " +
+                "VALUES (:productName, :category, :imageUrl, :price, :stock, :description,:createdDate, :lastModifiedDate)";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource();
         paramMap.addValue("productName", productInsert.getProductName());
@@ -65,7 +65,7 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "update product set product_name = :productName,category=:category,image_url=:imageUrl,price = :price,stock = :stock,description = :description" +
                 " where product_id = :productId";
         MapSqlParameterSource paramMap = new MapSqlParameterSource();
-        paramMap.addValue("productId",productId);
+        paramMap.addValue("productId", productId);
         paramMap.addValue("productName", productInsert.getProductName());
         paramMap.addValue("category", productInsert.getCategory().name());
         paramMap.addValue("imageUrl", productInsert.getImageUrl());
@@ -74,7 +74,15 @@ public class ProductDaoImpl implements ProductDao {
         paramMap.addValue("description", productInsert.getDescription());
         paramMap.addValue("lastModifiedDate", new Date());
 
-        npjt.update(sql,paramMap);
+        npjt.update(sql, paramMap);
 
+    }
+
+    @Override
+    public void delete(Integer productId) {
+        String sql = "delete from product where product_id = :productId";
+        MapSqlParameterSource sqlParam = new MapSqlParameterSource();
+        sqlParam.addValue("productId", productId);
+        npjt.update(sql, sqlParam);
     }
 }
