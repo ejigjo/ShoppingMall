@@ -40,8 +40,8 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Integer insert(ProductInsert productInsert) {
-        String sql = "INSERT INTO product (product_name, category, image_url, price, stock, description, created_date, last_modified_date) " +
-                "VALUES (:productName, :category, :imageUrl, :price, :stock, :description, :createdDate, :lastModifiedDate)";
+        String sql = "INSERT INTO product (product_name, category, image_url, price, stock, description, last_modified_date) " +
+                "VALUES (:productName, :category, :imageUrl, :price, :stock, :description, :lastModifiedDate)";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource();
         paramMap.addValue("productName", productInsert.getProductName());
@@ -58,5 +58,23 @@ public class ProductDaoImpl implements ProductDao {
 
         int productId = npjt.update(sql, paramMap, keyHolder);
         return productId;
+    }
+
+    @Override
+    public void update(Integer productId, ProductInsert productInsert) {
+        String sql = "update product set product_name = :productName,category=:category,image_url=:imageUrl,price = :price,stock = :stock,description = :description" +
+                " where product_id = :productId";
+        MapSqlParameterSource paramMap = new MapSqlParameterSource();
+        paramMap.addValue("productId",productId);
+        paramMap.addValue("productName", productInsert.getProductName());
+        paramMap.addValue("category", productInsert.getCategory().name());
+        paramMap.addValue("imageUrl", productInsert.getImageUrl());
+        paramMap.addValue("price", productInsert.getPrice());
+        paramMap.addValue("stock", productInsert.getStock());
+        paramMap.addValue("description", productInsert.getDescription());
+        paramMap.addValue("lastModifiedDate", new Date());
+
+        npjt.update(sql,paramMap);
+
     }
 }
