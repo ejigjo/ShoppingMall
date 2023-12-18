@@ -3,9 +3,10 @@ package com.example.shoppingmall.rowMapper;
 import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.pojo.Product;
 import org.springframework.jdbc.core.RowMapper;
-
+import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class ProductRowMapper implements RowMapper<Product> {
     @Override
@@ -17,8 +18,8 @@ public class ProductRowMapper implements RowMapper<Product> {
         product.setPrice(rs.getInt("price"));
         product.setStock(rs.getInt("stock"));
         product.setDescription(rs.getString("description"));
-        product.setCreatedDate(rs.getTime("created_date"));
-        product.setLastModifiedDate(rs.getTime("last_modified_date"));
+        product.setCreatedDate(rs.getTimestamp("created_date"));
+        product.setLastModifiedDate(rs.getTimestamp("last_modified_date"));
         return product;
     }
 }
