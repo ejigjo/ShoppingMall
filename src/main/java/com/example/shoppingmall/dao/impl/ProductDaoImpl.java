@@ -1,5 +1,6 @@
 package com.example.shoppingmall.dao.impl;
 
+import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
@@ -83,5 +84,29 @@ public class ProductDaoImpl implements ProductDao {
         MapSqlParameterSource sqlParam = new MapSqlParameterSource();
         sqlParam.addValue("productId", productId);
         npjt.update(sql, sqlParam);
+    }
+
+    @Override
+    public List<Product> findProductsInfo(ProductCategory productCategory,String name) {
+        String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
+                "from product where 1=1 ";
+
+        Map<String, Object> map = new HashMap<>();
+
+        if (productCategory !=null){
+           sql = sql + "and category = :category";
+           map.put("category",productCategory.name());
+        }
+        if(name != null){
+            sql = sql + "and product_name like :name";
+            map.put("name","%"+name+"%");
+        }
+
+        List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
+        if (productList.isEmpty()) {
+            return null;
+        }
+
+        return productList;
     }
 }

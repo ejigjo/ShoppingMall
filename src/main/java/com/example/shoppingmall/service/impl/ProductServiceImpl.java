@@ -1,11 +1,15 @@
 package com.example.shoppingmall.service.impl;
 
+import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.shoppingmall.service.ProductService;
+
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -28,5 +32,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(Integer productId) {
         productDao.delete(productId);
+    }
+
+    @Override
+    public List<Product> findProductsInfo(ProductCategory productCategory,String name) {
+        return productDao.findProductsInfo(productCategory,name);
     }
 }
