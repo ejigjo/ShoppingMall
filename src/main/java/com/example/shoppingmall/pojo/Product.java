@@ -23,4 +23,6 @@ public class Product {
     private Date lastModifiedDate;
     private String oderBy;
     private String sort;
+    private Integer limit;
+    private Integer offset;
 }

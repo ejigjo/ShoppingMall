@@ -64,13 +64,17 @@ public class ProductController {
     public ResponseEntity<List<Product>> findProductsInfo(
             @RequestParam(required = false) ProductCategory productCategory,
             @RequestParam(required = false) String prouductName,
-            @RequestParam(required = false,defaultValue = "created_date") String oderBy,
-            @RequestParam(required = false,defaultValue = "desc")String sort) {
+            @RequestParam(defaultValue = "created_date") String oderBy,
+            @RequestParam(defaultValue = "desc")String sort,
+            @RequestParam(defaultValue = "3")Integer limit,
+            @RequestParam(defaultValue = "0")Integer offset) {
         Product product = new Product();
         product.setCategory(productCategory);
         product.setProductName(prouductName);
         product.setOderBy(oderBy);
         product.setSort(sort);
+        product.setLimit(limit);
+        product.setOffset(offset);
         List<Product> productsList = productService.findProductsInfo(product);
 
         return ResponseEntity.status(HttpStatus.OK).body(productsList);
