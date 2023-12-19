@@ -11,10 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Repository
@@ -53,11 +50,13 @@ public class ProductDaoImpl implements ProductDao {
         paramMap.addValue("createdDate", new Date());
         paramMap.addValue("lastModifiedDate", new Date());
 
-        // 使用 KeyHolder 來保存自增 ID
+        //GeneratedKeyHolder實現類keyHolder用於接住新增數據的Key
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        //新增數據庫數據,並接住新自增的Key
+        npjt.update(sql, paramMap,keyHolder);
 
-        int productId = npjt.update(sql, paramMap, keyHolder);
-        return productId;
+        //返回新數據的key
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
     @Override
