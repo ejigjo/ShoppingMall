@@ -21,5 +21,5 @@ public interface ProductDao {
 
     List<Product> findProductsInfo(ProductQueryParam productQueryParam);
 
-    int total();
+    int total(ProductQueryParam productQueryParam);
 }

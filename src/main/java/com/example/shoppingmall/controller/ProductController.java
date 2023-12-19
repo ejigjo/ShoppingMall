@@ -78,7 +78,7 @@ public class ProductController {
         productQueryParam.setLimit(limit);
         productQueryParam.setOffset(offset);
         List<Product> productsList = productService.findProductsInfo(productQueryParam);
-        int total = productService.total();
+        int total = productService.total(productQueryParam);
         ProductPage productPage = new ProductPage(limit,offset,total,productsList);
         return ResponseEntity.status(HttpStatus.OK).body(productPage);
     }

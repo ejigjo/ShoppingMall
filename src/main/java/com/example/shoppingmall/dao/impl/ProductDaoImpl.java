@@ -27,7 +27,7 @@ public class ProductDaoImpl implements ProductDao {
                 "from product where product_id = :productId";
 
         Map<String, Object> map = new HashMap<>();
-        map.put("productId", productId);
+        map.put("product_id", productId);
 
         List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
         if (productList.isEmpty()) {
@@ -36,6 +36,30 @@ public class ProductDaoImpl implements ProductDao {
         return productList.get(0);
 
     }
+    @Override
+    public int total(ProductQueryParam productQueryParam) {
+        String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
+                "from product";
+
+        Map<String, Object> map = new HashMap<>();
+
+        if (productQueryParam.getCategory() != null) {
+            sql = sql + " and category = :category";
+            map.put("category", productQueryParam.getCategory().name());
+        }
+        if (productQueryParam.getProductName() != null) {
+            sql = sql + " and product_name like :name";
+            map.put("name", "%" + productQueryParam.getProductName() + "%");
+        }
+
+        List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
+        if (productList.isEmpty()) {
+            return 0;
+        }
+        return productList.size();
+
+    }
+
 
     @Override
     public Integer insert(ProductInsert productInsert) {
@@ -115,18 +139,4 @@ public class ProductDaoImpl implements ProductDao {
         return productList;
     }
 
-    @Override
-    public int total() {
-        String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
-                "from product";
-
-        Map<String, Object> map = new HashMap<>();
-
-        List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
-        if (productList.isEmpty()) {
-            return 0;
-        }
-        return productList.size();
-
-    }
 }

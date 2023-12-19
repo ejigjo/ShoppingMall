@@ -42,8 +42,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int total() {
-        int total = productDao.total();
+    public int total(ProductQueryParam productQueryParam) {
+        int total = productDao.total(productQueryParam);
         return total;
     }
 }
