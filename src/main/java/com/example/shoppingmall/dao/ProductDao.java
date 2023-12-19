@@ -3,6 +3,7 @@ package com.example.shoppingmall.dao;
 
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
+import com.example.shoppingmall.pojo.ProductQueryParam;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface ProductDao {
 
     //List<Product> findProductsInfo();
 
-    List<Product> findProductsInfo(Product product);
+    List<Product> findProductsInfo(ProductQueryParam productQueryParam);
+
+    int total();
 }

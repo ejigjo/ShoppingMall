@@ -3,6 +3,7 @@ package com.example.shoppingmall.service;
 // import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
+import com.example.shoppingmall.pojo.ProductQueryParam;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface ProductService {
 
     //List<Product> findProductsInfo();
 
-    List<Product> findProductsInfo(Product product);
+    List<Product> findProductsInfo(ProductQueryParam productQueryParam);
+
+    int total();
 }

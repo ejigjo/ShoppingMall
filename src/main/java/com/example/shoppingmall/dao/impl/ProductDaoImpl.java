@@ -4,6 +4,7 @@ import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
+import com.example.shoppingmall.pojo.ProductQueryParam;
 import com.example.shoppingmall.rowMapper.ProductRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -87,24 +88,24 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> findProductsInfo(Product product) {
+    public List<Product> findProductsInfo(ProductQueryParam productQueryParam) {
         String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
                 "from product where 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
-        if (product.getCategory() != null) {
+        if (productQueryParam.getCategory() != null) {
             sql = sql + " and category = :category";
-            map.put("category", product.getCategory().name());
+            map.put("category", productQueryParam.getCategory().name());
         }
-        if (product.getProductName() != null) {
+        if (productQueryParam.getProductName() != null) {
             sql = sql + " and product_name like :name";
-            map.put("name", "%" + product.getProductName() + "%");
+            map.put("name", "%" + productQueryParam.getProductName() + "%");
         }
         //排序
-        sql = sql + " order by " +product.getOderBy()+" "+product.getSort();
+        sql = sql + " order by " +productQueryParam.getOderBy()+" "+productQueryParam.getSort();
         //分頁
-        sql = sql + " limit " + product.getLimit() + " " + "offset "+product.getOffset();
+        sql = sql + " limit " + productQueryParam.getLimit() + " " + "offset "+productQueryParam.getOffset();
 
         List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
         if (productList.isEmpty()) {
@@ -112,5 +113,20 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         return productList;
+    }
+
+    @Override
+    public int total() {
+        String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
+                "from product";
+
+        Map<String, Object> map = new HashMap<>();
+
+        List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
+        if (productList.isEmpty()) {
+            return 0;
+        }
+        return productList.size();
+
     }
 }

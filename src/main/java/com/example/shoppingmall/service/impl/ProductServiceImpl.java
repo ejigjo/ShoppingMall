@@ -4,6 +4,7 @@ import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
+import com.example.shoppingmall.pojo.ProductQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.shoppingmall.service.ProductService;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
+
     @Override
     public Product getProductInfo(Integer productId) {
         return productDao.getProductInfo(productId);
@@ -26,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(Integer productId, ProductInsert productInsert) {
-        productDao.update(productId,productInsert);
+        productDao.update(productId, productInsert);
     }
 
     @Override
@@ -35,7 +37,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findProductsInfo(Product product) {
-        return productDao.findProductsInfo(product);
+    public List<Product> findProductsInfo(ProductQueryParam productQueryParam) {
+        return productDao.findProductsInfo(productQueryParam);
+    }
+
+    @Override
+    public int total() {
+        int total = productDao.total();
+        return total;
     }
 }

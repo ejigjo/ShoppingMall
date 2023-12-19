@@ -3,6 +3,8 @@ package com.example.shoppingmall.controller;
 import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.pojo.ProductInsert;
+import com.example.shoppingmall.pojo.ProductPage;
+import com.example.shoppingmall.pojo.ProductQueryParam;
 import com.example.shoppingmall.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -61,23 +63,24 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> findProductsInfo(
+    public ResponseEntity<ProductPage> findProductsInfo(
             @RequestParam(required = false) ProductCategory productCategory,
             @RequestParam(required = false) String prouductName,
             @RequestParam(defaultValue = "created_date") String oderBy,
-            @RequestParam(defaultValue = "desc")String sort,
-            @RequestParam(defaultValue = "3")Integer limit,
-            @RequestParam(defaultValue = "0")Integer offset) {
-        Product product = new Product();
-        product.setCategory(productCategory);
-        product.setProductName(prouductName);
-        product.setOderBy(oderBy);
-        product.setSort(sort);
-        product.setLimit(limit);
-        product.setOffset(offset);
-        List<Product> productsList = productService.findProductsInfo(product);
-
-        return ResponseEntity.status(HttpStatus.OK).body(productsList);
+            @RequestParam(defaultValue = "desc") String sort,
+            @RequestParam(defaultValue = "3") Integer limit,
+            @RequestParam(defaultValue = "0") Integer offset) {
+        ProductQueryParam productQueryParam = new ProductQueryParam();
+        productQueryParam.setCategory(productCategory);
+        productQueryParam.setProductName(prouductName);
+        productQueryParam.setOderBy(oderBy);
+        productQueryParam.setSort(sort);
+        productQueryParam.setLimit(limit);
+        productQueryParam.setOffset(offset);
+        List<Product> productsList = productService.findProductsInfo(productQueryParam);
+        int total = productService.total();
+        ProductPage productPage = new ProductPage(limit,offset,total,productsList);
+        return ResponseEntity.status(HttpStatus.OK).body(productPage);
     }
 
 }
