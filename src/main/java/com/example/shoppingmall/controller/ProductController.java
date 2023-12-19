@@ -25,7 +25,7 @@ public class ProductController {
             //如果數據為null回傳NOT_FOUND
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        //回傳響應數據200與產品資料
+        //回傳響應數據OK與產品資料
         return ResponseEntity.status(HttpStatus.OK).body(productInfo);
 
     }
@@ -62,8 +62,11 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> findProductsInfo(
             @RequestParam(required = false) ProductCategory productCategory,
-            @RequestParam(required = false) String name) {
-        List<Product> productsList = productService.findProductsInfo(productCategory,name);
+            @RequestParam(required = false) String prouductName) {
+        Product product = new Product();
+        product.setCategory(productCategory);
+        product.setProductName(prouductName);
+        List<Product> productsList = productService.findProductsInfo(product);
 
         return ResponseEntity.status(HttpStatus.OK).body(productsList);
     }

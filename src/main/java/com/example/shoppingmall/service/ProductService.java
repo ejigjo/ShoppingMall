@@ -18,5 +18,5 @@ public interface ProductService {
 
     //List<Product> findProductsInfo();
 
-    List<Product> findProductsInfo(ProductCategory productCategory, String name);
+    List<Product> findProductsInfo(Product product);
 }

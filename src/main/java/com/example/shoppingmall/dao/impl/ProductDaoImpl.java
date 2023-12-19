@@ -54,7 +54,7 @@ public class ProductDaoImpl implements ProductDao {
         //GeneratedKeyHolder實現類keyHolder用於接住新增數據的Key
         KeyHolder keyHolder = new GeneratedKeyHolder();
         //新增數據庫數據,並接住新自增的Key
-        npjt.update(sql, paramMap,keyHolder);
+        npjt.update(sql, paramMap, keyHolder);
 
         //返回新數據的key
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
@@ -87,19 +87,19 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> findProductsInfo(ProductCategory productCategory,String name) {
+    public List<Product> findProductsInfo(Product product) {
         String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
-                "from product where 1=1 ";
+                "from product where 1=1";
 
         Map<String, Object> map = new HashMap<>();
 
-        if (productCategory !=null){
-           sql = sql + "and category = :category";
-           map.put("category",productCategory.name());
+        if (product.getCategory() != null) {
+            sql = sql + " and category = :category";
+            map.put("category", product.getCategory().name());
         }
-        if(name != null){
-            sql = sql + "and product_name like :name";
-            map.put("name","%"+name+"%");
+        if (product.getProductName() != null) {
+            sql = sql + " and product_name like :name";
+            map.put("name", "%" + product.getProductName() + "%");
         }
 
         List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
