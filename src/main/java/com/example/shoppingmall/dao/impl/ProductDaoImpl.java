@@ -101,6 +101,7 @@ public class ProductDaoImpl implements ProductDao {
             sql = sql + " and product_name like :name";
             map.put("name", "%" + product.getProductName() + "%");
         }
+        sql = sql + " order by " +product.getOderBy()+" "+product.getSort();
 
         List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
         if (productList.isEmpty()) {

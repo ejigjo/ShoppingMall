@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -62,10 +63,14 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> findProductsInfo(
             @RequestParam(required = false) ProductCategory productCategory,
-            @RequestParam(required = false) String prouductName) {
+            @RequestParam(required = false) String prouductName,
+            @RequestParam(required = false,defaultValue = "created_date") String oderBy,
+            @RequestParam(required = false,defaultValue = "desc")String sort) {
         Product product = new Product();
         product.setCategory(productCategory);
         product.setProductName(prouductName);
+        product.setOderBy(oderBy);
+        product.setSort(sort);
         List<Product> productsList = productService.findProductsInfo(product);
 
         return ResponseEntity.status(HttpStatus.OK).body(productsList);

@@ -21,4 +21,6 @@ public class Product {
     private String description;
     private Date createdDate;
     private Date lastModifiedDate;
+    private String oderBy;
+    private String sort;
 }
