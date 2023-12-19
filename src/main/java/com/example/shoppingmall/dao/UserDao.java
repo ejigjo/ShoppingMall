@@ -6,4 +6,8 @@ public interface UserDao {
     Integer createUser(User user);
 
     User findUserById(Integer userId);
+
+    User findUserByEmail(User user);
+
+
 }

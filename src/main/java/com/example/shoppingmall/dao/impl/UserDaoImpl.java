@@ -39,12 +39,28 @@ public class UserDaoImpl implements UserDao {
     public User findUserById(Integer userId) {
 
         String sql = "select user_id, email, password, created_date, last_modified_date from user where user_id = :userId";
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("user_id", userId);
+
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("userId", userId);
-        List<User> query = npjt.query(sql,mapSqlParameterSource, new UserRowMapper());
-        query.get(0);
-        return query.get(0);
+        List<User> userList = npjt.query(sql,mapSqlParameterSource, new UserRowMapper());
+
+        return userList.get(0);
     }
+
+    @Override
+    public User findUserByEmail(User user) {
+
+        String sql = "select user_id, email, password, created_date, last_modified_date from user where email = :email";
+
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("email", user.getEmail());
+        List<User> userByEmail = npjt.query(sql,mapSqlParameterSource, new UserRowMapper());
+        if (userByEmail.isEmpty()){
+            return null;
+        }
+        return userByEmail.get(0);
+
+    }
+
+
 }
