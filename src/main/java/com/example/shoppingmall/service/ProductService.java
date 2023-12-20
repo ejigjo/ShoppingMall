@@ -2,8 +2,8 @@ package com.example.shoppingmall.service;
 
 // import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.pojo.Product;
-import com.example.shoppingmall.pojo.ProductInsert;
-import com.example.shoppingmall.pojo.ProductQueryParam;
+import com.example.shoppingmall.dto.ProductInsert;
+import com.example.shoppingmall.dto.ProductQueryParam;
 
 import java.util.List;
 

@@ -1,10 +1,9 @@
 package com.example.shoppingmall.dao.impl;
 
-import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
-import com.example.shoppingmall.pojo.ProductInsert;
-import com.example.shoppingmall.pojo.ProductQueryParam;
+import com.example.shoppingmall.dto.ProductInsert;
+import com.example.shoppingmall.dto.ProductQueryParam;
 import com.example.shoppingmall.rowMapper.ProductRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -27,7 +26,7 @@ public class ProductDaoImpl implements ProductDao {
                 "from product where product_id = :productId";
 
         Map<String, Object> map = new HashMap<>();
-        map.put("product_id", productId);
+        map.put("productId", productId);
 
         List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
         if (productList.isEmpty()) {

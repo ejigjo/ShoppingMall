@@ -1,4 +1,4 @@
-package com.example.shoppingmall.pojo;
+package com.example.shoppingmall.dto;
 
 import com.example.shoppingmall.constant.ProductCategory;
 import jakarta.validation.constraints.NotNull;

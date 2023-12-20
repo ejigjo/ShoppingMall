@@ -1,5 +1,6 @@
-package com.example.shoppingmall.pojo;
+package com.example.shoppingmall.dto;
 
+import com.example.shoppingmall.pojo.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -2,8 +2,8 @@ package com.example.shoppingmall.dao;
 
 
 import com.example.shoppingmall.pojo.Product;
-import com.example.shoppingmall.pojo.ProductInsert;
-import com.example.shoppingmall.pojo.ProductQueryParam;
+import com.example.shoppingmall.dto.ProductInsert;
+import com.example.shoppingmall.dto.ProductQueryParam;
 
 import java.util.List;
 
