@@ -35,6 +35,7 @@ public class ProductDaoImpl implements ProductDao {
         return productList.get(0);
 
     }
+
     @Override
     public int total(ProductQueryParam productQueryParam) {
         String sql = "select product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
@@ -56,6 +57,19 @@ public class ProductDaoImpl implements ProductDao {
             return 0;
         }
         return productList.size();
+
+    }
+
+    @Override
+    public void updateStock(Integer productId, Integer stock) {
+        String sql = "update product set stock = :stock,last_modified_date = :lastModifiedDate " +
+                "where product_id = :productId";
+        MapSqlParameterSource sqlParam = new MapSqlParameterSource();
+        sqlParam.addValue("productId",productId);
+        sqlParam.addValue("lastModifiedDate",new Date());
+        sqlParam.addValue("stock",stock);
+
+        npjt.update(sql,sqlParam);
 
     }
 
@@ -126,9 +140,9 @@ public class ProductDaoImpl implements ProductDao {
             map.put("name", "%" + productQueryParam.getProductName() + "%");
         }
         //排序
-        sql = sql + " order by " +productQueryParam.getOderBy()+" "+productQueryParam.getSort();
+        sql = sql + " order by " + productQueryParam.getOderBy() + " " + productQueryParam.getSort();
         //分頁
-        sql = sql + " limit " + productQueryParam.getLimit() + " " + "offset "+productQueryParam.getOffset();
+        sql = sql + " limit " + productQueryParam.getLimit() + " " + "offset " + productQueryParam.getOffset();
 
         List<Product> productList = npjt.query(sql, map, new ProductRowMapper());
         if (productList.isEmpty()) {

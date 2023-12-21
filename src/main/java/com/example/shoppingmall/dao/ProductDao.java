@@ -22,4 +22,6 @@ public interface ProductDao {
     List<Product> findProductsInfo(ProductQueryParam productQueryParam);
 
     int total(ProductQueryParam productQueryParam);
+
+    void updateStock(Integer productId, Integer stock);
 }

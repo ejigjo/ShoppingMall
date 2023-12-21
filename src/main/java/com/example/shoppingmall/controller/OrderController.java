@@ -21,7 +21,7 @@ public class OrderController {
             @PathVariable Integer userId,
             @RequestBody @Valid RequestCreateOrder requestCreateOrder) {
             Integer orderId = oderService.createOrder(userId,requestCreateOrder);
-      log.info("有沒有ID:{}",orderId);
+
            Order orderInfo = oderService.findOrderById(orderId);
 
         return  ResponseEntity.status(HttpStatus.OK).body(orderInfo);

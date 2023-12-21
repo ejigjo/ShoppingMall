@@ -34,8 +34,7 @@ public class OrderDaoImpl implements OrderDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         npjt.update(sql, sqlParam, keyHolder);
-        int i = keyHolder.getKey().intValue();
-        log.info("dao有沒有ID:{}",i);
+
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
