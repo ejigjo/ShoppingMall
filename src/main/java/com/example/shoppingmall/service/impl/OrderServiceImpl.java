@@ -4,6 +4,7 @@ import com.example.shoppingmall.dao.OrderDao;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.dto.BuyItem;
 import com.example.shoppingmall.dto.RequestCreateOrder;
+import com.example.shoppingmall.pojo.Order;
 import com.example.shoppingmall.pojo.OrderItem;
 import com.example.shoppingmall.pojo.Product;
 import com.example.shoppingmall.service.OrderService;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -59,6 +61,17 @@ public class OrderServiceImpl implements OrderService {
         orderDao.createOrderItem(orderId, orderItemList);
 
 
-        return null;
+        return orderId;
+    }
+
+    @Override
+    public Order findOrderById(Integer orderId) {
+        Order orderInfo = orderDao.findOrderById(orderId);
+        List<OrderItem> orderItemList = orderDao.findOrderItemById(orderId);
+        orderInfo.setOrderItemList(orderItemList);
+
+        return orderInfo;
+
+
     }
 }

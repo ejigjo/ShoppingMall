@@ -1,7 +1,11 @@
 package com.example.shoppingmall.dao.impl;
 
 import com.example.shoppingmall.dao.OrderDao;
+import com.example.shoppingmall.pojo.Order;
 import com.example.shoppingmall.pojo.OrderItem;
+import com.example.shoppingmall.rowMapper.OrderItemRowMapper;
+import com.example.shoppingmall.rowMapper.OrderRowMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,7 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
+@Slf4j
 @Repository
 public class OrderDaoImpl implements OrderDao {
     @Autowired
@@ -30,7 +34,8 @@ public class OrderDaoImpl implements OrderDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         npjt.update(sql, sqlParam, keyHolder);
-
+        int i = keyHolder.getKey().intValue();
+        log.info("dao有沒有ID:{}",i);
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
@@ -46,7 +51,28 @@ public class OrderDaoImpl implements OrderDao {
             sqlParam.addValue("quantity", orderItem.getQuantity());
             sqlParam.addValue("amount", orderItem.getAmount());
         }
-        npjt.update(sql,sqlParam);
+        npjt.update(sql, sqlParam);
 
+    }
+
+    @Override
+    public Order findOrderById(Integer orderId) {
+        String sql = "select order_id, user_id, total_amount, created_date, last_modified_date " +
+                "from `order` where order_id = :orderId";
+        MapSqlParameterSource sqlParam = new MapSqlParameterSource();
+        sqlParam.addValue("orderId",orderId);
+        
+
+        List<Order> orderList = npjt.query(sql, sqlParam, new OrderRowMapper());
+        return orderList.get(0);
+    }
+
+    @Override
+    public List<OrderItem> findOrderItemById(Integer orderId) {
+        String sql = "select oi.order_item_id,oi.order_id,oi.product_id,oi.quantity,oi.amount,p.product_name,p.image_url\n" +
+                "from order_item as oi left join product as p on oi.product_id = p.product_id where oi.order_id = :orderId";
+        MapSqlParameterSource sqlParam = new MapSqlParameterSource();
+        sqlParam.addValue("orderId",orderId);
+        return npjt.query(sql, sqlParam, new OrderItemRowMapper());
     }
 }
