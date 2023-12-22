@@ -4,6 +4,7 @@ import com.example.shoppingmall.dao.OrderDao;
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.dao.UserDao;
 import com.example.shoppingmall.dto.BuyItem;
+import com.example.shoppingmall.dto.OrderQuertParam;
 import com.example.shoppingmall.dto.RequestCreateOrder;
 import com.example.shoppingmall.pojo.Order;
 import com.example.shoppingmall.pojo.OrderItem;
@@ -91,5 +92,16 @@ public class OrderServiceImpl implements OrderService {
         return orderInfo;
 
 
+    }
+
+    @Override
+    public List<Order> findOrderInfo(OrderQuertParam orderQuertParam) {
+        return orderDao.findOrderInfo(orderQuertParam);
+    }
+
+    @Override
+    public Integer countOrder(OrderQuertParam orderQuertParam) {
+       Integer countOrder = orderDao.countOrder(orderQuertParam);
+        return countOrder;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.shoppingmall.dao.impl;
 
 import com.example.shoppingmall.dao.OrderDao;
+import com.example.shoppingmall.dto.OrderQuertParam;
 import com.example.shoppingmall.pojo.Order;
 import com.example.shoppingmall.pojo.OrderItem;
 import com.example.shoppingmall.rowMapper.OrderItemRowMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
 @Slf4j
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -59,8 +61,8 @@ public class OrderDaoImpl implements OrderDao {
         String sql = "select order_id, user_id, total_amount, created_date, last_modified_date " +
                 "from `order` where order_id = :orderId";
         MapSqlParameterSource sqlParam = new MapSqlParameterSource();
-        sqlParam.addValue("orderId",orderId);
-        
+        sqlParam.addValue("orderId", orderId);
+
 
         List<Order> orderList = npjt.query(sql, sqlParam, new OrderRowMapper());
         return orderList.get(0);
@@ -71,7 +73,33 @@ public class OrderDaoImpl implements OrderDao {
         String sql = "select oi.order_item_id,oi.order_id,oi.product_id,oi.quantity,oi.amount,p.product_name,p.image_url\n" +
                 "from order_item as oi left join product as p on oi.product_id = p.product_id where oi.order_id = :orderId";
         MapSqlParameterSource sqlParam = new MapSqlParameterSource();
-        sqlParam.addValue("orderId",orderId);
+        sqlParam.addValue("orderId", orderId);
         return npjt.query(sql, sqlParam, new OrderItemRowMapper());
+    }
+
+    @Override
+    public List<Order> findOrderInfo(OrderQuertParam orderQuertParam) {
+        String sql = "select order_id, user_id, total_amount, created_date,last_modified_date from `order` where 1=1";
+        MapSqlParameterSource sqlParam = new MapSqlParameterSource();
+
+        sql = sql + " order by created_date desc";
+
+        sql = sql + " limit :limit offset :offset";
+
+        sqlParam.addValue("limit", orderQuertParam.getLimit());
+        sqlParam.addValue("offset", orderQuertParam.getOffset());
+
+        List<Order> orderList = npjt.query(sql, sqlParam, new OrderRowMapper());
+
+        return orderList;
+    }
+
+    @Override
+    public Integer countOrder(OrderQuertParam orderQuertParam) {
+        String sql = "select order_id, user_id, total_amount, created_date, last_modified_date from `order`";
+        MapSqlParameterSource sqlParam = new MapSqlParameterSource();
+        List<Order> orderList = npjt.query(sql, sqlParam, new OrderRowMapper());
+
+        return orderList.size();
     }
 }
