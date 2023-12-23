@@ -10,7 +10,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProductInsert {
+public class ProductRequest {
     @NotNull
     private String productName;
     @NonNull

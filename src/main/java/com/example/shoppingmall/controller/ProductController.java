@@ -2,7 +2,7 @@ package com.example.shoppingmall.controller;
 
 import com.example.shoppingmall.constant.ProductCategory;
 import com.example.shoppingmall.pojo.Product;
-import com.example.shoppingmall.dto.ProductInsert;
+import com.example.shoppingmall.dto.ProductRequest;
 import com.example.shoppingmall.dto.ProductPage;
 import com.example.shoppingmall.dto.ProductQueryParam;
 import com.example.shoppingmall.service.ProductService;
@@ -33,21 +33,21 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Object> insert(@RequestBody @Valid ProductInsert productInsert) {
-        Integer productId = productService.insert(productInsert);
+    public ResponseEntity<Object> insert(@RequestBody @Valid ProductRequest productRequest) {
+        Integer productId = productService.insert(productRequest);
         Product productInfo = productService.getProductInfo(productId);
         return ResponseEntity.status(HttpStatus.CREATED).body(productInfo);
     }
 
     @PutMapping("/products/{productId}")
     public ResponseEntity<Object> update(@PathVariable Integer productId,
-                                         @RequestBody ProductInsert productInsert) {
+                                         @RequestBody ProductRequest productRequest) {
         Product productInfo = productService.getProductInfo(productId);
         if (productInfo == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        productService.update(productId, productInsert);
+        productService.update(productId, productRequest);
 
         Product updateInfo = productService.getProductInfo(productId);
 

@@ -2,7 +2,7 @@ package com.example.shoppingmall.service.impl;
 
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
-import com.example.shoppingmall.dto.ProductInsert;
+import com.example.shoppingmall.dto.ProductRequest;
 import com.example.shoppingmall.dto.ProductQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Integer insert(ProductInsert productInsert) {
-        return productDao.insert(productInsert);
+    public Integer insert(ProductRequest productRequest) {
+        return productDao.insert(productRequest);
     }
 
     @Override
-    public void update(Integer productId, ProductInsert productInsert) {
-        productDao.update(productId, productInsert);
+    public void update(Integer productId, ProductRequest productRequest) {
+        productDao.update(productId, productRequest);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.example.shoppingmall.dao.impl;
 
 import com.example.shoppingmall.dao.ProductDao;
 import com.example.shoppingmall.pojo.Product;
-import com.example.shoppingmall.dto.ProductInsert;
+import com.example.shoppingmall.dto.ProductRequest;
 import com.example.shoppingmall.dto.ProductQueryParam;
 import com.example.shoppingmall.rowMapper.ProductRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,17 +75,17 @@ public class ProductDaoImpl implements ProductDao {
 
 
     @Override
-    public Integer insert(ProductInsert productInsert) {
+    public Integer insert(ProductRequest productRequest) {
         String sql = "INSERT INTO product (product_name, category, image_url, price, stock, description,created_date ,last_modified_date) " +
                 "VALUES (:productName, :category, :imageUrl, :price, :stock, :description,:createdDate, :lastModifiedDate)";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource();
-        paramMap.addValue("productName", productInsert.getProductName());
-        paramMap.addValue("category", productInsert.getCategory().name());
-        paramMap.addValue("imageUrl", productInsert.getImageUrl());
-        paramMap.addValue("price", productInsert.getPrice());
-        paramMap.addValue("stock", productInsert.getStock());
-        paramMap.addValue("description", productInsert.getDescription());
+        paramMap.addValue("productName", productRequest.getProductName());
+        paramMap.addValue("category", productRequest.getCategory().name());
+        paramMap.addValue("imageUrl", productRequest.getImageUrl());
+        paramMap.addValue("price", productRequest.getPrice());
+        paramMap.addValue("stock", productRequest.getStock());
+        paramMap.addValue("description", productRequest.getDescription());
         paramMap.addValue("createdDate", new Date());
         paramMap.addValue("lastModifiedDate", new Date());
 
@@ -99,17 +99,17 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void update(Integer productId, ProductInsert productInsert) {
+    public void update(Integer productId, ProductRequest productRequest) {
         String sql = "update product set product_name = :productName,category=:category,image_url=:imageUrl,price = :price,stock = :stock,description = :description" +
                 " where product_id = :productId";
         MapSqlParameterSource paramMap = new MapSqlParameterSource();
         paramMap.addValue("productId", productId);
-        paramMap.addValue("productName", productInsert.getProductName());
-        paramMap.addValue("category", productInsert.getCategory().name());
-        paramMap.addValue("imageUrl", productInsert.getImageUrl());
-        paramMap.addValue("price", productInsert.getPrice());
-        paramMap.addValue("stock", productInsert.getStock());
-        paramMap.addValue("description", productInsert.getDescription());
+        paramMap.addValue("productName", productRequest.getProductName());
+        paramMap.addValue("category", productRequest.getCategory().name());
+        paramMap.addValue("imageUrl", productRequest.getImageUrl());
+        paramMap.addValue("price", productRequest.getPrice());
+        paramMap.addValue("stock", productRequest.getStock());
+        paramMap.addValue("description", productRequest.getDescription());
         paramMap.addValue("lastModifiedDate", new Date());
 
         npjt.update(sql, paramMap);
