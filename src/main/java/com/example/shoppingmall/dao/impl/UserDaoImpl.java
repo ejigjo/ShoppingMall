@@ -1,6 +1,8 @@
 package com.example.shoppingmall.dao.impl;
 
 import com.example.shoppingmall.dao.UserDao;
+import com.example.shoppingmall.dto.UserLoginRequest;
+import com.example.shoppingmall.dto.UserRegisterRequest;
 import com.example.shoppingmall.pojo.User;
 import com.example.shoppingmall.rowMapper.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ public class UserDaoImpl implements UserDao {
     NamedParameterJdbcTemplate npjt;
 
     @Override
-    public Integer createUser(User user) {
+    public Integer createUser(UserRegisterRequest user) {
         String sql = "insert into user(email, password, created_date, last_modified_date) " +
                 "VALUES(:email,:password,:createdDate,:lastModifiedDate)";
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
@@ -48,12 +50,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findUserByEmail(User user) {
+    public User findUserByEmail(String email) {
 
         String sql = "select user_id, email, password, created_date, last_modified_date from user where email = :email";
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
-        mapSqlParameterSource.addValue("email", user.getEmail());
+        mapSqlParameterSource.addValue("email", email);
         List<User> userByEmail = npjt.query(sql,mapSqlParameterSource, new UserRowMapper());
         if (userByEmail.isEmpty()){
             return null;

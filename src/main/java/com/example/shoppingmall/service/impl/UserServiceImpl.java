@@ -2,12 +2,13 @@ package com.example.shoppingmall.service.impl;
 
 
 import com.example.shoppingmall.dao.UserDao;
+import com.example.shoppingmall.dto.UserLoginRequest;
+import com.example.shoppingmall.dto.UserRegisterRequest;
 import com.example.shoppingmall.pojo.User;
 import com.example.shoppingmall.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,9 +20,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public Integer register(User user) {
+    public Integer register(UserRegisterRequest user) {
         //驗證註冊email是否存在
-        User userByEmail = userDao.findUserByEmail(user);
+        User userByEmail = userDao.findUserByEmail(user.getEmail());
         if (userByEmail != null) {
             log.warn("該帳號已經被註冊");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -40,16 +41,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(User user) {
+    public User findUserByEmail(UserRegisterRequest user) {
 
-        return userDao.findUserByEmail(user);
+        return userDao.findUserByEmail(user.getEmail());
 
     }
 
     @Override
-    public User login(User user) {
+    public User login(UserLoginRequest user) {
 
-        User userByEmail = userDao.findUserByEmail(user);
+        User userByEmail = userDao.findUserByEmail(user.getEmail());
         //驗證email是否已註冊
         if (userByEmail == null) {
             log.warn("帳號尚未註冊");

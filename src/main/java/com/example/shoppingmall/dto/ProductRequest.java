@@ -21,6 +21,6 @@ public class ProductRequest {
     private Integer price;
     @NonNull
     private Integer stock;
-    @NonNull
+
     private String description;
 }
